@@ -3,17 +3,21 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 import Home from '../views/Home/home';
 import Header from '../Components/Header/header';
+import Footer from '../Components/Footer/footer';
 
-// import { Container } from './styles';
+import { Page } from '../styles/page';
 
 function routes() {
   return (
-    <BrowserRouter>
-      <Header />
-      <Switch>
-        <Route path="/" exact component={Home} />
-      </Switch>
-    </BrowserRouter>
+    <Page>
+      <BrowserRouter>
+        <Header />
+        <Switch>
+          <Route path="/" exact component={Home} />
+        </Switch>
+        <Footer />
+      </BrowserRouter>
+    </Page>
   );
 }
 

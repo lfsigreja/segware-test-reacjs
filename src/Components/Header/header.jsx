@@ -6,7 +6,7 @@ import { NavBar } from './style';
 function Header() {
   return (
     <NavBar>
-      <Link to="/"> Home </Link>
+      <Link to="/"> Segware Blog </Link>
     </NavBar>
   );
 }
