@@ -7,6 +7,8 @@ function Header() {
   return (
     <NavBar>
       <Link to="/"> Segware Blog </Link>
+      <Link to="/newpost">Novo Post</Link>
+      <Link to="/signin">Entrar</Link>
     </NavBar>
   );
 }

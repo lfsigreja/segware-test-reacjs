@@ -21,7 +21,10 @@
     "rules": {
         "prettier/prettier": "error",
         "no-console": "off",
-        "no-unused-vars": "warn",
-        "no-use-before-define": "off"
+        "no-use-before-define": "off",
+        "ignoreTemplateLiterals": 0,
+        "no-unused-vars": "off",
+        "no-shadow":"off",
+        "comma-dangle": ["error", "never"]
     }
 }

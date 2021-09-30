@@ -2,6 +2,9 @@ import React from 'react';
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
 import Home from '../views/Home/home';
+import NewPost from '../views/NewPost/newPost';
+import SignIn from '../views/SignIn/signin';
+import SignUp from '../views/SignUp/signup';
 import Header from '../Components/Header/header';
 import Footer from '../Components/Footer/footer';
 
@@ -14,6 +17,9 @@ function routes() {
         <Header />
         <Switch>
           <Route path="/" exact component={Home} />
+          <Route path="/newpost" component={NewPost} />
+          <Route path="/signin" component={SignIn} />
+          <Route path="/signup" component={SignUp} />
         </Switch>
         <Footer />
       </BrowserRouter>

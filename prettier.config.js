@@ -1,7 +1,7 @@
 module.exports = {
-  trailingComma: 'es5',
+  trailingComma: 'none',
   singleQuote: true,
   printWidth: 80,
   semi: true,
-  parser: 'flow',
+  parser: 'flow'
 };

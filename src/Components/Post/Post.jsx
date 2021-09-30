@@ -1,13 +1,17 @@
 import React from 'react';
 
-import { Container } from './style';
+import { Article } from './style';
 
-function Post() {
+function Post(author, content, like, love) {
   return (
-    <Container>
-      <h1>Hello World</h1>
-      <p>Lorem ipsum dolor sit amet consectetur adipisicing elit</p>
-    </Container>
+    <Article>
+      <article>
+        <h1>{author}</h1>
+        <p>
+        {content}
+        </p>
+      </article>
+    </Article>
   );
 }
 
