@@ -1,14 +1,17 @@
-import React, { useEffect, useState } from 'react';
+import React, { useCallback, useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
+import { Checkbox } from '@material-ui/core';
+import { FavoriteBorder, Favorite } from '@material-ui/icons';
 
-import Post from '../../Components/Post/Post';
 import { api } from '../../services/api';
 import { Container, Article } from './style';
 
 function Home() {
   const [data, setData] = useState();
+  const [favorite, setFavorite] = useState(false);
   const token = sessionStorage.getItem('@segwareServiceToken');
   const history = useHistory();
+  const label = { inputProps: { 'aria-label': 'checkbox demo' } };
 
   if (!token) {
     history.push('/signin');
@@ -27,16 +30,39 @@ function Home() {
     }, [token]);
   }
 
-  console.log(data);
+  const handleFavorite = useEffect(
+    (e) => {
+      console.log(favorite);
+      const tokenSub = token.replaceAll('"', '');
+      if (favorite) {
+        api.post('/reaction', favorite, {
+          headers: {
+            Authorization: `Bearer ${tokenSub}`
+          }
+        });
+      }
+    },
+    [favorite]
+  );
 
   return (
     <Container>
       {data?.map((el) => (
-        <Article>
-          <article>
-            <h1>{el.author.username}</h1>
-            <p>{el.content}</p>
-          </article>
+        <Article key={el.id}>
+          <p>{el.content}</p>
+          <div>
+            <h1>
+              {'Autor: '}
+              {el.author.username}
+            </h1>
+            <Checkbox
+              {...label}
+              icon={<FavoriteBorder />}
+              checkedIcon={<Favorite />}
+              // eslint-disable-next-line prettier/prettier
+              onChange={(e) => setFavorite({ feedId: el.id, like: true, love: true })}
+            />
+          </div>
         </Article>
       ))}
     </Container>
