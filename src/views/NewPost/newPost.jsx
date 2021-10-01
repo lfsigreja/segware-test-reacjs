@@ -2,6 +2,7 @@ import React, { useCallback, useState } from 'react';
 import { useHistory } from 'react-router';
 import { toast } from 'react-toastify';
 import { api } from '../../services/api';
+import Header from '../../Components/Header/header';
 
 import { Container } from './style';
 
@@ -37,16 +38,19 @@ function NewPost() {
   );
 
   return (
-    <Container>
-      <form onSubmit={handleSubmit}>
-        <h1>Conteudo</h1>
-        <input
-          placeholder="O que você gostaria de ensinar hoje?"
-          onChange={(e) => setContent({ content: e.target.value })}
-        />
-        <input type="submit" value="Postar" />
-      </form>
-    </Container>
+    <>
+      <Header />
+      <Container>
+        <form onSubmit={handleSubmit}>
+          <h1>Conteudo</h1>
+          <input
+            placeholder="O que você gostaria de ensinar hoje?"
+            onChange={(e) => setContent({ content: e.target.value })}
+          />
+          <input type="submit" value="Postar" />
+        </form>
+      </Container>
+    </>
   );
 }
 

@@ -4,6 +4,7 @@ import React, { useCallback, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { api } from '../../services/api';
+import Header from '../../Components/Header/header';
 
 import { Container } from './style';
 
@@ -43,25 +44,28 @@ function SignUp() {
   );
 
   return (
-    <Container>
-      <div className="card">
-        <h5>Cadastre-se já no blog da Segware</h5>
-        <form onSubmit={handleSubmit}>
-          <input
-            type="text"
-            placeholder="Username"
-            onChange={(e) => setData({ ...data, username: e.target.value })}
-          />
-          <input
-            type="password"
-            placeholder="Senha"
-            onChange={(e) => setData({ ...data, password: e.target.value })}
-          />
-          <input type="submit" value="Cadastrar" />
-        </form>
-        <Link to="/signin">Já possuí conta? Clique aqui.</Link>
-      </div>
-    </Container>
+    <>
+      <Header />
+      <Container>
+        <div className="card">
+          <h5>Cadastre-se já no blog da Segware</h5>
+          <form onSubmit={handleSubmit}>
+            <input
+              type="text"
+              placeholder="Username"
+              onChange={(e) => setData({ ...data, username: e.target.value })}
+            />
+            <input
+              type="password"
+              placeholder="Senha"
+              onChange={(e) => setData({ ...data, password: e.target.value })}
+            />
+            <input type="submit" value="Cadastrar" />
+          </form>
+          <Link to="/signin">Já possuí conta? Clique aqui.</Link>
+        </div>
+      </Container>
+    </>
   );
 }
 
