@@ -18,7 +18,7 @@ function NewPost() {
   }
 
   const onError = (e) => {
-    toast.error('Ops, algo deu errado, tente novamente ', {
+    toast.error('Ops, algo deu errado, tente novamente.', {
       hideProgressBar: false
     });
   };
@@ -44,7 +44,7 @@ function NewPost() {
       <Container>
         <form onSubmit={handleSubmit}>
           <h1>Conteudo</h1>
-          <input
+          <textarea
             placeholder="O que você gostaria de ensinar hoje?"
             onChange={(e) => setContent({ content: e.target.value })}
           />
