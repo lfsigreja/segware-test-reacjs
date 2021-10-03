@@ -3,5 +3,6 @@ node_modules
 build
 public
 reset.css
+src
 
 src/Components/Post/post.jsx
