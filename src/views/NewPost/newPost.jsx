@@ -9,9 +9,13 @@ import post from '../../services/postService';
 import { Container } from './style';
 
 function NewPost() {
-  tokenOnStorageValidade();
   const [content, setContent] = useState('');
   const history = useHistory();
+
+  const token = sessionStorage.getItem('@segwareServiceToken');
+  if (!token) {
+    history.push('/signin');
+  }
 
   const onError = (e) => {
     toast.error('Ops, algo deu errado, tente novamente ', {
