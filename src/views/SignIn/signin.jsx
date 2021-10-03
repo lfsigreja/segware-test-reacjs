@@ -1,32 +1,28 @@
-/* eslint-disable prettier/prettier */
-/* eslint-disable no-shadow */
+/* eslint-disable implicit-arrow-linebreak */
 import React, { useCallback, useState } from 'react';
 import { useHistory, Link } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { api } from '../../services/api';
 import Header from '../../Components/Header/header';
-
 import { Container } from './style';
+import login from '../../services/loginService';
 
 function SignIn() {
   const [data, setData] = useState({});
-
   const history = useHistory();
+
+  const onError = (e) => {
+    toast.error('Ops, seu login falhou, tente novamente.', {
+      hideProgressBar: false
+    });
+  };
+
+  const onSuccess = () => history.push('/');
+
   const handleSubmit = useCallback(
     (e) => {
       e.preventDefault();
-      api
-        .post('sign-in', data)
-        .then((response) => {
-          const sessionToken = JSON.stringify(response.data);
-          sessionStorage.setItem('@segwareServiceToken', sessionToken);
-          history.push('/');
-        })
-        .catch((e) => {
-          toast.error('Ops, seu login falhou, tente novamente.', {
-            hideProgressBar: false
-          });
-        });
+      login(data, { onError, onSuccess });
     },
     [data]
   );

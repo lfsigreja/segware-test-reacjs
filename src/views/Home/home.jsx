@@ -1,62 +1,42 @@
 /* eslint-disable max-len */
-import React, { useCallback, useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router';
 import { Checkbox } from '@material-ui/core';
 import { FavoriteBorder, Favorite } from '@material-ui/icons';
 import Header from '../../Components/Header/header';
 import Upvote from '../../Components/Upvote/Upvote';
 
-import { api } from '../../services/api';
 import { Container, Article } from './style';
+import getContent from '../../services/getContent';
+import postReaction from '../../services/postReaction';
+import tokenOnStorageValidade from '../../services/tokenOnStorageValidate';
 
 function Home() {
   // Hooks
   const [data, setData] = useState();
   const [favorite, setFavorite] = useState(false);
-  const [load, setLoad] = useState(false);
-  // Validação se o usuário está logado + hook de redirecionamento
-  const history = useHistory();
+  // Validação se o usuário está logado + serviço de redirecionamento
   const token = sessionStorage.getItem('@segwareServiceToken');
-  if (!token) {
-    history.push('/signin');
-  }
+  tokenOnStorageValidade();
+  // Props do Material UI
+  const label = { inputProps: { 'aria-label': 'favorite buton' } };
 
-  // validação botão favoritar
-  const label = { inputProps: { 'aria-label': 'checkbox demo' } };
+  // Chamada para renderizar a tela da primeira vez
+  useEffect(() => {
+    if (token) {
+      getContent(setData);
+    }
+  }, []);
 
+  // Chamada para renderizar a tela depois de um like
   useEffect(
     (e) => {
       if (favorite) {
-        const tokenSub = token.replaceAll('"', '');
-        console.log(favorite);
-        api
-          .post('/reaction', favorite, {
-            headers: {
-              Authorization: `Bearer ${tokenSub}`
-            }
-          })
-          .finally(() => {
-            setLoad(!load);
-          });
+        postReaction(favorite, { onSuccess: setData });
       }
     },
     [favorite]
   );
-
-  useEffect(() => {
-    if (token) {
-      const tokenSub = token.replaceAll('"', '');
-      api
-        .get('/feeds', {
-          headers: {
-            Authorization: `Bearer ${tokenSub}`
-          }
-        })
-        .then((response) => {
-          setData(response.data);
-        });
-    }
-  }, [load]);
 
   return (
     <>

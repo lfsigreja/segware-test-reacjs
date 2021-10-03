@@ -26,6 +26,8 @@
         "no-unused-vars": "off",
         "no-shadow":"off",
         "comma-dangle": ["error", "never"],
-        "react/jsx-props-no-spreading": "off"
+        "react/jsx-props-no-spreading": "off",
+        "react/prop-types": 0,
+        "implicit-arrow-linebreak:": 0
     }
 }

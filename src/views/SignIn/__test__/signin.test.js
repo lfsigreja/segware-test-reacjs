@@ -1,14 +1,16 @@
 import React from 'react';
-import { render, fireEvent, screen } from '@testing-library/react';
+import { render, fireEvent, screen, waitFor } from '@testing-library/react';
 import SignIn from '../signin';
-import { BrowserRouter } from 'react-router-dom';
-import { api } from '../../../services/api.js';
-
-jest.mock('../../../services/api.js');
-
-const wrapper = ({ children }) => <BrowserRouter>{children}</BrowserRouter>;
+import { BrowserRouter, Router } from 'react-router-dom';
+import { createMemoryHistory } from 'history';
+import login from '../../../services/loginService.js';
+import { toast } from 'react-toastify';
+jest.mock('../../../services/loginService.js');
+jest.mock('react-toastify');
 
 describe('views::signin', () => {
+  const wrapper = ({ children }) => <BrowserRouter>{children}</BrowserRouter>;
+
   describe('When insert username', () => {
     it('Change username', () => {
       render(<SignIn />, { wrapper });
@@ -31,18 +33,37 @@ describe('views::signin', () => {
     it('Send login request', () => {
       render(<SignIn />, { wrapper });
 
-      api.post.mockResolvedValue({});
-
       fireEvent.click(screen.getByDisplayValue('Logar'));
-      expect(api.post).toHaveBeenCalledWith('sign-in', {});
+      expect(login).toHaveBeenCalledWith({}, expect.anything());
     });
-    describe('When resolve', () => {
-      it('Save token', () => {});
-      it('Redirect', () => {});
+    describe('On success', () => {
+      it('Redirect', async () => {
+        login.mockImplementation((_, { onSuccess }) => onSuccess());
+        const history = createMemoryHistory();
+        history.push('/');
+        render(<SignIn />, {
+          wrapper: ({ children }) => (
+            <Router history={history}>{children}</Router>
+          )
+        });
+
+        fireEvent.click(screen.getByDisplayValue('Logar'));
+        return expect(history.location.pathname).toEqual('/');
+      });
     });
-    describe('When error', () => {
-      it('Stay on page', () => {});
-      it('Toast error', () => {});
+
+    describe('On error', () => {
+      it('Toast error', async () => {
+        login.mockImplementation((_, { onError }) => onError());
+        render(<SignIn />, { wrapper });
+
+        fireEvent.click(screen.getByDisplayValue('Logar'));
+
+        return expect(toast.error).toHaveBeenCalledWith(
+          'Ops, seu login falhou, tente novamente.',
+          expect.anything()
+        );
+      });
     });
   });
 });

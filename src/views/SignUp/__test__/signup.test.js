@@ -6,9 +6,8 @@ import { api } from '../../../services/api.js';
 
 jest.mock('../../../services/api.js');
 
-const wrapper = ({ children }) => <BrowserRouter>{children}</BrowserRouter>;
-
 describe('views::signin', () => {
+  const wrapper = ({ children }) => <BrowserRouter>{children}</BrowserRouter>;
   describe('When insert username', () => {
     it('Change username', () => {
       render(<SignUp />, { wrapper });

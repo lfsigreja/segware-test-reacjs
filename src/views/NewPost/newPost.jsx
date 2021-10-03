@@ -3,36 +3,33 @@ import { useHistory } from 'react-router';
 import { toast } from 'react-toastify';
 import { api } from '../../services/api';
 import Header from '../../Components/Header/header';
+import tokenOnStorageValidade from '../../services/tokenOnStorageValidate';
+import post from '../../services/postService';
 
 import { Container } from './style';
 
 function NewPost() {
+  tokenOnStorageValidade();
   const [content, setContent] = useState('');
-
   const history = useHistory();
+
+  const onError = (e) => {
+    toast.error('Ops, algo deu errado, tente novamente ', {
+      hideProgressBar: false
+    });
+  };
+
+  const onSuccess = () => {
+    toast.success('Post realizado com sucesso', {
+      hideProgressBar: false
+    });
+    history.push('/');
+  };
+
   const handleSubmit = useCallback(
     (e) => {
       e.preventDefault();
-
-      const token = sessionStorage
-        .getItem('@segwareServiceToken')
-        .replaceAll('"', '');
-
-      api
-        .post('/feed', content, {
-          headers: {
-            Authorization: `Bearer ${token}`
-          }
-        })
-        .then((response) => {
-          toast.success('Post realizado com sucesso', {
-            hideProgressBar: false,
-            onClose: () => history.push('/')
-          });
-        })
-        .catch((e) => {
-          toast.error('Ops, algo não deu certo');
-        });
+      post(content, { onSuccess, onError });
     },
     [content]
   );

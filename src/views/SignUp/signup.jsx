@@ -1,46 +1,33 @@
-/* eslint-disable no-shadow */
-/* eslint-disable prettier/prettier */
+/* eslint-disable implicit-arrow-linebreak */
 import React, { useCallback, useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { api } from '../../services/api';
 import Header from '../../Components/Header/header';
+import register from '../../services/register';
 
 import { Container } from './style';
 
 function SignUp() {
   const [data, setData] = useState({});
   const history = useHistory();
+
+  const onError = (e) => {
+    toast.error('Ops, seu login falhou, tente novamente.', {
+      hideProgressBar: false
+    });
+  };
+  const onSuccess = (e) => {
+    history.push('/');
+  };
+
   const handleSubmit = useCallback(
     (e) => {
-      console.log(data);
       e.preventDefault();
-      api
-        .post('/sign-up', data)
-        .then((response) => {
-          console.log(response.data);
-          toast.success('Cadastro Realizado com Sucesso, você será redirecionado em instantes', {
-            hideProgressBar: false
-          });
-        })
-        .catch((e) => {
-          toast.error('Oops, algo não deu certo');
-        });
-      api
-        .post('sign-in', data)
-        .then((response) => {
-          const sessionToken = JSON.stringify(response.data);
-          console.log(sessionToken);
-          sessionStorage.setItem('@segwareServiceToken', sessionToken);
-          history.push('/');
-        })
-        .catch((e) => {
-          toast.error('Ops, seu login falhou, tente novamente.', {
-            hideProgressBar: false,
-            onClose: () => history.push('/')
-          });
-        });
-    }, [data, history]
+
+      register(data, { onError, onSuccess });
+    },
+    [data]
   );
 
   return (
