@@ -1,13 +1,13 @@
 Olá! Tudo bem?
 
-Para instalar a aplicação, utilize o comando: 
+# Para instalar a aplicação, utilize o comando: 
 
-# yarn
+### yarn
 
-A aplicação consiste em apenas dois comandos: 
+# A aplicação consiste em apenas dois comandos: 
 
-# yarn start 
-Para iniciar a aplicação
+### yarn start 
+#### Para iniciar a aplicação
 
-# yarn test
-Para abrir todos os arquivos de teste. Para rodar todos os testes, aperte a tecla a
+### yarn test
+#### Para abrir todos os arquivos de teste. Para rodar todos os testes, aperte a tecla a
